@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Past Participle — Matching Pairs (B1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:        #111111;
+    --ink-soft:   #3A3A3A;
+    --gray:       #6E6E6E;
+    --gray-soft:  #E4E4E4;
+    --white:      #FFFFFF;
+    --r-lg: 26px;
+    --r-md: 16px;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+
+  html,body{ height:100%; }
+
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--white);
+    color:var(--ink);
+    min-height:100vh;
+    padding:36px 18px;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  .bg-blob{ position:fixed; border-radius:50%; filter:blur(60px); z-index:0; opacity:0.6; }
+  .bg-blob.b1{ width:360px; height:360px; background:var(--gray-soft); top:-140px; right:-120px; }
+  .bg-blob.b2{ width:320px; height:320px; background:var(--gray-soft); bottom:-140px; left:-120px; }
+
+  .stage{ max-width:620px; margin:0 auto; position:relative; z-index:1; }
+
+  /* ---------- Persistent header ---------- */
+  .header-row{
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:26px;
+  }
+  .m1-badge{
+    width:44px; height:44px; border-radius:12px;
+    background:var(--ink); color:var(--white);
+    border:2.5px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Poppins',sans-serif; font-weight:800; font-size:15px;
+    box-shadow:0 6px 12px -4px rgba(17,17,17,0.35);
+  }
+  .m1-label{
+    font-family:'Poppins',sans-serif; font-weight:800; font-size:16px;
+    color:var(--ink);
+  }
+  .m1-label span{ color:var(--gray); }
+
+  .meta-row{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:18px; gap:10px; flex-wrap:wrap;
+  }
+  .q-count{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13px;
+    letter-spacing:0.04em; color:var(--ink); text-transform:uppercase;
+  }
+  .dots{ display:flex; gap:5px; flex-wrap:wrap; max-width:260px; }
+  .dot{
+    width:9px; height:9px; border-radius:50%;
+    border:2px solid var(--gray-soft);
+    background:transparent;
+    transition:background .25s ease, border-color .25s ease;
+  }
+  .dot.done{ background:var(--ink); border-color:var(--ink); }
+
+  .score-badge{
+    font-family:'Inter',sans-serif; font-weight:800; font-size:13px;
+    color:var(--ink); background:var(--white);
+    border:2.5px solid var(--ink);
+    padding:8px 16px; border-radius:999px;
+    white-space:nowrap;
+  }
+
+  /* ---------- Screens ---------- */
+  .screen{ display:none; }
+  .screen.active{ display:block; animation:fadeUp .45s ease both; }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(12px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  /* ---------- WELCOME ---------- */
+
+  .welcome{ text-align:center; padding:36px 18px 10px; }
+
+  .eyebrow-pill{
+    display:inline-flex; align-items:center; gap:7px;
+    background:var(--ink); color:var(--white);
+    font-family:'Inter',sans-serif; font-weight:700; font-size:12px;
+    letter-spacing:0.1em; text-transform:uppercase;
+    padding:9px 18px; border-radius:999px;
+    margin-bottom:26px;
+  }
+
+  h1.title{
+    position:relative; display:inline-block;
+    font-family:'Poppins',sans-serif; font-weight:900;
+    font-size:clamp(30px,7.6vw,52px);
+    text-transform:uppercase;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+    line-height:1.08;
+    margin-bottom:22px;
+  }
+  h1.title::after{
+    content:""; position:absolute; left:2%; right:2%; bottom:-8px;
+    height:15px; background:var(--gray-soft); border-radius:8px; z-index:-1;
+  }
+
+  p.lead{
+    font-size:17px; font-weight:700; color:var(--ink);
+    margin-bottom:6px;
+  }
+  p.sub-lead{
+    font-size:14px; color:var(--gray); margin-bottom:28px;
+  }
+
+  .hero-photos{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
+    margin:0 0 28px;
+  }
+  .photo-box{
+    border:2.5px solid var(--ink); border-radius:14px; overflow:hidden;
+    box-shadow:3px 4px 0 var(--gray-soft); background:var(--gray-soft);
+  }
+  .photo-box img{ display:block; width:100%; height:68px; object-fit:cover; }
+  .photo-box .cap{
+    font-family:'Inter',sans-serif; font-weight:800; font-size:9.5px;
+    letter-spacing:0.04em; text-transform:uppercase; color:var(--ink);
+    text-align:center; padding:5px 2px; background:var(--white);
+  }
+
+  .preview-row{
+    display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+    margin-bottom:32px;
+  }
+  .chip-preview{
+    position:relative;
+    font-family:'Inter',sans-serif; font-weight:700; font-size:14px;
+    background:var(--white); color:var(--ink);
+    border:2.5px solid var(--ink);
+    border-radius:14px;
+    padding:12px 18px;
+  }
+  .chip-preview::before{
+    content:""; position:absolute; left:18px; bottom:-9px;
+    border-left:8px solid transparent; border-right:8px solid transparent;
+    border-top:8px solid var(--ink);
+  }
+  .chip-preview::after{
+    content:""; position:absolute; left:20px; bottom:-6px;
+    border-left:6px solid transparent; border-right:6px solid transparent;
+    border-top:6px solid var(--white);
+  }
+
+  .info-box{
+    text-align:left; background:var(--gray-soft); border:2.5px dashed var(--gray);
+    border-radius:var(--r-md); padding:18px 20px; margin:0 0 34px;
+    font-size:13.5px; color:var(--ink); line-height:1.55;
+  }
+  .info-box strong{ color:var(--ink); }
+
+  .btn{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:15px;
+    border-radius:999px;
+    padding:17px 32px;
+    cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    border:none;
+  }
+  .btn:focus-visible{ outline:3px solid var(--gray); outline-offset:3px; }
+
+  .btn-primary{
+    background:var(--ink); color:var(--white);
+    border:3px solid var(--ink);
+    box-shadow:4px 5px 0 var(--gray);
+    width:100%; max-width:340px;
+  }
+  .btn-primary:hover{ transform:translate(-2px,-2px); box-shadow:6px 7px 0 var(--gray); }
+  .btn-primary:active{ transform:translate(1px,2px); box-shadow:2px 2px 0 var(--gray); }
+  .btn-primary:disabled{
+    background:var(--gray-soft); border-color:var(--gray-soft); color:var(--gray);
+    box-shadow:none; cursor:not-allowed; transform:none;
+  }
+
+  /* ---------- TILE GRID (matching pairs) ---------- */
+
+  .card{
+    background:var(--white);
+    border:3px solid var(--ink);
+    border-radius:var(--r-lg);
+    box-shadow:9px 10px 0 var(--gray-soft);
+    padding:28px 24px;
+    margin-bottom:20px;
+  }
+
+  .card-label{
+    font-family:'Inter',sans-serif; font-weight:800; font-size:14px;
+    letter-spacing:0.04em; text-transform:uppercase;
+    color:var(--ink); margin-bottom:8px;
+  }
+  .card-sub{ font-size:14px; color:var(--gray); margin-bottom:20px; }
+
+  .tile-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:9px;
+  }
+  .tile{
+    position:relative; aspect-ratio:0.88/1;
+    border-radius:13px; border:2.5px solid var(--ink);
+    background:var(--ink); color:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Poppins',sans-serif; font-weight:800;
+    font-size:clamp(11px,3vw,13.5px);
+    text-transform:uppercase; text-align:center;
+    cursor:pointer; padding:5px;
+    box-shadow:2.5px 3px 0 var(--gray-soft);
+    transition:transform .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
+    user-select:none;
+    line-height:1.15;
+    word-break:break-word;
+  }
+  .tile:hover:not(.flipped):not(.matched){ transform:translate(-1px,-1px); }
+  .tile:focus-visible{ outline:3px solid var(--gray); outline-offset:2px; }
+  .tile.flipped{ background:var(--white); color:var(--ink); }
+  .tile.matched{
+    background:var(--gray-soft); color:var(--gray);
+    border-color:var(--gray-soft); cursor:default; box-shadow:none;
+  }
+  .tile.matched::after{
+    content:"✓"; position:absolute; top:3px; right:6px;
+    font-size:10px; color:var(--ink-soft); font-weight:800;
+  }
+  .tile.shake{ animation:shake .4s ease; }
+  @keyframes shake{
+    10%,90%{ transform:translateX(-2px); }
+    20%,80%{ transform:translateX(4px); }
+    30%,50%,70%{ transform:translateX(-7px); }
+    40%,60%{ transform:translateX(7px); }
+  }
+
+  /* ---------- REWARD (photo + audio on match) ---------- */
+
+  .reward-card{ display:none; }
+  .reward-card.show{ display:block; animation:popIn .3s cubic-bezier(.34,1.56,.64,1) both; }
+  @keyframes popIn{ from{ opacity:0; transform:scale(.95) translateY(-4px);} to{ opacity:1; transform:scale(1) translateY(0);} }
+
+  .photo-frame{
+    position:relative; width:100%; aspect-ratio:16/10; max-height:220px;
+    background:var(--gray-soft);
+    border:3px solid var(--ink);
+    border-radius:var(--r-md);
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:6px 7px 0 var(--gray-soft);
+    margin-bottom:22px;
+  }
+  .photo-frame img{
+    width:100%; height:100%; object-fit:cover;
+    opacity:0; transition:opacity .35s ease;
+  }
+  .img-loading{
+    position:absolute; font-family:'Inter',sans-serif; font-size:12.5px;
+    font-weight:700; color:var(--gray); letter-spacing:0.03em;
+  }
+
+  .listen-row{ display:flex; justify-content:center; margin-bottom:20px; }
+  .btn-listen{
+    background:var(--ink); color:var(--white);
+    border:none; border-radius:999px;
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13.5px;
+    padding:12px 22px; cursor:pointer;
+    display:inline-flex; align-items:center; gap:8px;
+    box-shadow:3px 4px 0 var(--gray-soft);
+    transition:transform .15s ease;
+  }
+  .btn-listen:hover{ transform:translate(-2px,-2px); }
+  .btn-listen:active{ transform:translate(1px,2px); }
+  .btn-listen svg{ width:16px; height:16px; }
+  .btn-listen.speaking{ animation:speakPulse .7s ease-in-out infinite; }
+  @keyframes speakPulse{ 0%,100%{ opacity:1;} 50%{ opacity:.6;} }
+
+  .sentence-block{ text-align:center; }
+  .sentence-text{
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:18px;
+    color:var(--ink); line-height:1.5;
+  }
+  .sentence-text .hl{
+    text-decoration:underline; text-decoration-color:var(--gray); text-decoration-thickness:3px;
+    text-underline-offset:3px;
+  }
+
+  .action-row{ display:flex; gap:14px; margin-top:4px; }
+  .action-row .btn{ flex:1; }
+
+  /* ---------- FINAL ---------- */
+
+  .final-card{ text-align:center; padding:48px 32px 40px; }
+
+  .trophy-wrap{
+    width:88px; height:88px; margin:0 auto 22px;
+    background:var(--ink); border-radius:22px;
+    border:3px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:4px 5px 0 var(--gray-soft);
+    transform:rotate(-4deg);
+    animation:trophyPop .6s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes trophyPop{ 0%{ transform:scale(0) rotate(-24deg);} 100%{ transform:scale(1) rotate(-4deg);} }
+  .trophy-wrap svg{ width:42px; height:42px; }
+
+  h2.final-title{
+    font-family:'Poppins',sans-serif; font-weight:900; text-transform:uppercase;
+    font-size:28px; margin-bottom:8px;
+  }
+  p.final-sub{ color:var(--gray); font-size:14.5px; margin-bottom:28px; }
+
+  .score-display{
+    display:inline-flex; align-items:baseline; gap:6px;
+    font-family:'Poppins',sans-serif; font-weight:900;
+    font-size:50px; color:var(--ink);
+    margin-bottom:4px;
+  }
+  .score-display span.of{ font-size:22px; color:var(--gray); font-weight:700; }
+  .score-label{
+    font-family:'Inter',sans-serif; font-weight:800;
+    font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--gray); margin-bottom:10px;
+  }
+  .moves-note{
+    font-size:13.5px; color:var(--gray); margin-bottom:28px;
+  }
+  .moves-note strong{ color:var(--ink); }
+
+  .progress-track{
+    height:12px; background:var(--gray-soft); border:2px solid var(--ink);
+    border-radius:99px; overflow:hidden; margin-bottom:32px;
+  }
+  .progress-fill{ height:100%; width:0%; background:var(--ink); transition:width 1s cubic-bezier(.22,1,.36,1); }
+
+  .final-btn-row{ display:flex; flex-direction:column; gap:12px; align-items:center; }
+  .final-btn-row .btn{ width:100%; max-width:340px; }
+
+  @media (max-width:480px){
+    .card{ padding:22px 16px; }
+    .final-card{ padding:40px 20px 34px; }
+    .welcome{ padding:26px 10px 6px; }
+    .action-row{ flex-direction:column; }
+    .sentence-text{ font-size:16px; }
+    .tile-grid{ gap:7px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blob b1" aria-hidden="true"></div>
+<div class="bg-blob b2" aria-hidden="true"></div>
+
+<audio id="tts-audio" preload="none" style="display:none;"></audio>
+
+<div class="stage">
+
+  <div class="header-row">
+    <div class="m1-badge">B1</div>
+    <div class="m1-label">INTERMEDIATE <span>B1</span></div>
+  </div>
+
+  <!-- ============ WELCOME SCREEN ============ -->
+  <section class="screen active" id="screen-welcome">
+    <div class="welcome">
+      <div class="eyebrow-pill">✦ Interactive Activity</div>
+      <h1 class="title">Past Participle<br>Matching Pairs</h1>
+      <p class="lead">Match every base verb with its past participle.</p>
+      <p class="sub-lead">Tap two cards to flip them. Find all 12 pairs, hear each sentence, and see a real photo.</p>
+
+      <div class="hero-photos" aria-hidden="true">
+        <div class="photo-box"><img src="https://images.pexels.com/photos/1966012/pexels-photo-1966012.jpeg?auto=compress&cs=tinysrgb&w=300" alt=""><div class="cap">Played</div></div>
+        <div class="photo-box"><img src="https://images.pexels.com/photos/6940880/pexels-photo-6940880.jpeg?auto=compress&cs=tinysrgb&w=300" alt=""><div class="cap">Slept</div></div>
+        <div class="photo-box"><img src="https://images.pexels.com/photos/6814345/pexels-photo-6814345.jpeg?auto=compress&cs=tinysrgb&w=300" alt=""><div class="cap">Spoken</div></div>
+        <div class="photo-box"><img src="https://images.pexels.com/photos/321598/pexels-photo-321598.jpeg?auto=compress&cs=tinysrgb&w=300" alt=""><div class="cap">Eaten</div></div>
+      </div>
+
+      <div class="preview-row" aria-hidden="true">
+        <div class="chip-preview">GO → GONE</div>
+        <div class="chip-preview">EAT → EATEN</div>
+        <div class="chip-preview">SPEAK → SPOKEN</div>
+      </div>
+
+      <div class="info-box">
+        <strong>Instructions:</strong> this board has 24 cards — 12 base verbs and 12 past participles. Tap a card to flip it, then tap a second card. If they form a correct pair (for example <strong>go</strong> and <strong>gone</strong>), they stay face up, you will hear the full sentence read aloud, and a real photo will appear. If they don't match, both cards flip back and you try again. Find all 12 pairs using as few moves as possible!
+      </div>
+
+      <button class="btn btn-primary" id="btn-start">
+        START ACTIVITY
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ ACTIVITY SCREEN ============ -->
+  <section class="screen" id="screen-activity">
+    <div class="meta-row">
+      <div class="q-count" id="q-count">PAIRS FOUND 0 OF 12</div>
+      <div class="dots" id="dots"></div>
+      <div class="score-badge">MOVES: <span id="moves-value">0</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Find the matching pairs</div>
+      <div class="card-sub">Base verb + past participle = a match.</div>
+
+      <div class="tile-grid" id="tile-grid"></div>
+    </div>
+
+    <div class="card reward-card" id="reward-card">
+      <div class="card-label">Great match!</div>
+      <div class="card-sub" id="reward-pair-label"></div>
+
+      <div class="photo-frame" id="photo-frame">
+        <div class="img-loading">Loading photo…</div>
+        <img id="photo-img" alt="A real photograph related to the sentence." />
+      </div>
+
+      <div class="listen-row">
+        <button class="btn-listen" id="btn-listen" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+          <span id="listen-label">LISTEN</span>
+        </button>
+      </div>
+
+      <div class="sentence-block">
+        <div class="sentence-text" id="sentence-text"></div>
+      </div>
+    </div>
+
+    <div class="action-row" id="finish-row" style="display:none;">
+      <button class="btn btn-primary" id="btn-finish">SEE RESULTS
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ FINAL SCREEN ============ -->
+  <section class="screen" id="screen-final">
+    <div class="card final-card">
+      <div class="trophy-wrap">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 5H4a1 1 0 00-1 1v1a4 4 0 004 4M17 5h3a1 1 0 011 1v1a4 4 0 01-4 4" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2 class="final-title">Well done!</h2>
+      <p class="final-sub">You completed the Past Participle Matching Pairs activity.</p>
+
+      <div class="score-display"><span id="final-score">0</span><span class="of">/ 12</span></div>
+      <div class="score-label">Pairs matched</div>
+      <div class="moves-note">Completed in <strong id="final-moves">0</strong> moves.</div>
+
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+      <div class="final-btn-row">
+        <button class="btn btn-primary" id="btn-retry">TRY AGAIN</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+
+  const IMG = {
+    be:      "https://images.pexels.com/photos/8728981/pexels-photo-8728981.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    do_:     "https://images.pexels.com/photos/7063764/pexels-photo-7063764.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    make:    "https://images.pexels.com/photos/3992206/pexels-photo-3992206.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    play:    "https://images.pexels.com/photos/1966012/pexels-photo-1966012.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    break_:  "https://images.pexels.com/photos/11606700/pexels-photo-11606700.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    go:      "https://images.pexels.com/photos/14105926/pexels-photo-14105926.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    take:    "https://images.pexels.com/photos/678425/pexels-photo-678425.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    sleep:   "https://images.pexels.com/photos/6940880/pexels-photo-6940880.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    forget:  "https://images.pexels.com/photos/20303488/pexels-photo-20303488.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    drive:   "https://images.pexels.com/photos/1051071/pexels-photo-1051071.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    speak:   "https://images.pexels.com/photos/6814345/pexels-photo-6814345.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200",
+    eat:     "https://images.pexels.com/photos/321598/pexels-photo-321598.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200"
+  };
+
+  // The 12 base verb / past participle pairs (verified against the real
+  // Wordwall "Past Participle" matching-pairs resource). Each pair carries a
+  // real photo, an example sentence, and the gender used for the spoken
+  // audio (matched to the subject of the sentence wherever it has one).
+  const PAIRS = [
+    { base:"Be",      participle:"Been",      img:IMG.be,     voice:'F', sentence:"She has been to the beach many times this year." },
+    { base:"Do",      participle:"Done",      img:IMG.do_,    voice:'M', sentence:"He has done a lot of work tonight." },
+    { base:"Make",    participle:"Made",      img:IMG.make,   voice:'F', sentence:"She has made a chocolate cake for the party." },
+    { base:"Play",    participle:"Played",    img:IMG.play,   voice:'M', sentence:"He has played the guitar since he was a teenager." },
+    { base:"Break",   participle:"Broken",    img:IMG.break_, voice:'M', sentence:"Someone has broken the window." },
+    { base:"Go",      participle:"Gone",      img:IMG.go,     voice:'M', sentence:"He has gone for a long walk in the fog." },
+    { base:"Take",    participle:"Taken",     img:IMG.take,   voice:'M', sentence:"He has taken hundreds of photos with his camera." },
+    { base:"Sleep",   participle:"Slept",     img:IMG.sleep,  voice:'F', sentence:"She has slept for eight hours tonight." },
+    { base:"Forget",  participle:"Forgotten", img:IMG.forget, voice:'F', sentence:"Someone has forgotten their umbrella in the rain." },
+    { base:"Drive",   participle:"Driven",    img:IMG.drive,  voice:'F', sentence:"She has driven to work every day this week." },
+    { base:"Speak",   participle:"Spoken",    img:IMG.speak,  voice:'M', sentence:"He has spoken at the meeting twice this month." },
+    { base:"Eat",     participle:"Eaten",     img:IMG.eat,    voice:'F', sentence:"She has eaten a healthy breakfast this morning." }
+  ];
+
+  let tiles = [];          // shuffled tile objects for the current game
+  let flippedEls = [];     // currently flipped (unmatched) tile elements
+  let matchedCount = 0;
+  let moves = 0;
+  let locked = false;
+
+  const screens = {
+    welcome: document.getElementById('screen-welcome'),
+    activity: document.getElementById('screen-activity'),
+    final: document.getElementById('screen-final')
+  };
+
+  const qCount = document.getElementById('q-count');
+  const movesValue = document.getElementById('moves-value');
+  const dotsEl = document.getElementById('dots');
+  const tileGrid = document.getElementById('tile-grid');
+  const rewardCard = document.getElementById('reward-card');
+  const rewardPairLabel = document.getElementById('reward-pair-label');
+  const photoFrame = document.getElementById('photo-frame');
+  const photoImg = document.getElementById('photo-img');
+  const sentenceText = document.getElementById('sentence-text');
+  const btnListen = document.getElementById('btn-listen');
+  const listenLabel = document.getElementById('listen-label');
+  const finishRow = document.getElementById('finish-row');
+  const btnFinish = document.getElementById('btn-finish');
+  const btnStart = document.getElementById('btn-start');
+  const btnRetry = document.getElementById('btn-retry');
+
+  let currentRewardPair = null;
+
+  /* ---------------- Natural human-voice pronunciation (male + female) ----------------
+     Three tiers, tried in order every single time (never a permanent sticky
+     disable after one hiccup, so a single dropped connection never locks the
+     whole activity into robotic audio):
+     1) A free built-in cloud-quality OS voice (Microsoft Edge "Online (Natural)",
+        Google US English, Samantha) when the browser already has one installed.
+     2) A recorded-quality neural voice (Amazon Polly, via a free public relay).
+     3) The browser's best built-in voice of the matching gender, only used if
+        neither of the above is available or reachable.
+     The voice gender always matches the subject of each sentence. */
+  const ttsAudio = document.getElementById('tts-audio');
+  const NEURAL_VOICES = {
+    M: ["Matthew", "Joey"],
+    F: ["Joanna", "Kendra", "Salli"]
+  };
+  let consecutiveFailures = 0;
+
+  function pickNeuralVoice(gender, index){
+    const list = NEURAL_VOICES[gender] || NEURAL_VOICES.F;
+    return list[index % list.length];
+  }
+
+  let cachedVoices = [];
+  function refreshVoices(){
+    if('speechSynthesis' in window){ cachedVoices = window.speechSynthesis.getVoices(); }
+  }
+  if('speechSynthesis' in window){
+    refreshVoices();
+    window.speechSynthesis.onvoiceschanged = refreshVoices;
+  }
+
+  function pickFallbackVoice(gender){
+    if(!cachedVoices.length) return null;
+    const femaleNames = [/Samantha/i, /Zira/i, /Female/i, /Joanna/i, /Aria/i, /Jenny/i, /Victoria/i];
+    const maleNames   = [/Daniel/i, /David/i, /Alex/i, /Male/i, /Guy/i, /Fred/i, /Matthew/i];
+    const priorityNames = gender === 'M' ? maleNames : femaleNames;
+    for(const rx of priorityNames){
+      const v = cachedVoices.find(v => rx.test(v.name) && v.lang.startsWith('en'));
+      if(v) return v;
+    }
+    const enUS = cachedVoices.find(v => v.lang === 'en-US');
+    if(enUS) return enUS;
+    const anyEn = cachedVoices.find(v => v.lang && v.lang.startsWith('en'));
+    return anyEn || cachedVoices[0];
+  }
+
+  function pickPremiumVoice(gender){
+    if(!cachedVoices.length) return null;
+    const femaleNames = [
+      /Microsoft (Aria|Jenny|Michelle|Ana) Online \(Natural\)/i,
+      /Google US English/i,
+      /Samantha/i
+    ];
+    const maleNames = [
+      /Microsoft (Guy|Davis|Andrew|Christopher|Eric|Brian) Online \(Natural\)/i,
+      /Google UK English Male/i,
+      /Alex/i
+    ];
+    const priorityNames = gender === 'M' ? maleNames : femaleNames;
+    for(const rx of priorityNames){
+      const v = cachedVoices.find(v => rx.test(v.name) && v.lang && v.lang.startsWith('en'));
+      if(v) return v;
+    }
+    return null;
+  }
+
+  function speakWithVoice(text, voice, onEnd){
+    if(!('speechSynthesis' in window)){ if(onEnd) onEnd(); return; }
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.voice = voice;
+    utter.rate = 0.94; utter.pitch = 1.0; utter.volume = 1;
+    utter.onend = function(){ if(onEnd) onEnd(); };
+    utter.onerror = function(){ if(onEnd) onEnd(); };
+    window.speechSynthesis.speak(utter);
+  }
+
+  function fallbackSpeak(text, gender, onEnd){
+    if(!('speechSynthesis' in window)){ if(onEnd) onEnd(); return; }
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    const v = pickFallbackVoice(gender);
+    if(v) utter.voice = v;
+    utter.rate = 0.9; utter.pitch = gender === 'M' ? 0.95 : 1.05; utter.volume = 1;
+    utter.onend = function(){ if(onEnd) onEnd(); };
+    utter.onerror = function(){ if(onEnd) onEnd(); };
+    window.speechSynthesis.speak(utter);
+  }
+
+  function attemptNeural(text, gender, voiceIndex, attempt, onSuccess, onFail){
+    const voiceName = pickNeuralVoice(gender, voiceIndex + attempt);
+    const url = 'https://api.streamelements.com/kappa/v2/speech?voice=' + voiceName + '&text=' + encodeURIComponent(text);
+    let settled = false;
+    const timeoutMs = consecutiveFailures >= 2 ? 4000 : 7000;
+    const safety = setTimeout(function(){
+      if(!settled){ settled = true; try{ ttsAudio.pause(); }catch(e){} onFail(); }
+    }, timeoutMs);
+
+    ttsAudio.onended = function(){
+      if(settled) return; settled = true; clearTimeout(safety);
+      consecutiveFailures = 0; onSuccess();
+    };
+    ttsAudio.onerror = function(){
+      if(settled) return; settled = true; clearTimeout(safety); onFail();
+    };
+
+    try{
+      ttsAudio.src = url;
+      const p = ttsAudio.play();
+      if(p && p.catch){
+        p.catch(function(){ if(settled) return; settled = true; clearTimeout(safety); onFail(); });
+      }
+    }catch(e){
+      if(!settled){ settled = true; clearTimeout(safety); onFail(); }
+    }
+  }
+
+  function speakPhrase(text, gender, onEnd){
+    let finished = false;
+    const finish = function(){ if(!finished){ finished = true; if(onEnd) onEnd(); } };
+
+    const premium = pickPremiumVoice(gender);
+    if(premium){ speakWithVoice(text, premium, finish); return; }
+
+    attemptNeural(text, gender, 0, 0, finish, function(){
+      attemptNeural(text, gender, 0, 1, finish, function(){
+        consecutiveFailures++;
+        fallbackSpeak(text, gender, finish);
+      });
+    });
+  }
+
+  btnListen.addEventListener('click', function(){
+    if(btnListen.disabled || !currentRewardPair) return;
+    btnListen.classList.add('speaking');
+    btnListen.disabled = true;
+    listenLabel.textContent = 'PLAYING…';
+    speakPhrase(currentRewardPair.sentence, currentRewardPair.voice, function(){
+      btnListen.classList.remove('speaking');
+      btnListen.disabled = false;
+      listenLabel.textContent = 'LISTEN';
+    });
+  });
+
+  /* ---------------- Photo loading ---------------- */
+  function loadPhoto(pair){
+    const loading = photoFrame.querySelector('.img-loading');
+    loading.style.display = 'block';
+    loading.textContent = 'Loading photo…';
+    photoImg.style.opacity = '0';
+    photoImg.onload = function(){ loading.style.display = 'none'; photoImg.style.opacity = '1'; };
+    photoImg.onerror = function(){ loading.textContent = 'Photo could not be loaded.'; };
+    photoImg.src = pair.img;
+  }
+
+  /* ---------------- Board setup ---------------- */
+  function shuffle(arr){
+    for(let i = arr.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function buildDots(){
+    dotsEl.innerHTML = '';
+    PAIRS.forEach(()=>{
+      const d = document.createElement('div');
+      d.className = 'dot';
+      dotsEl.appendChild(d);
+    });
+  }
+
+  function refreshMeta(){
+    qCount.textContent = `PAIRS FOUND ${matchedCount} OF ${PAIRS.length}`;
+    movesValue.textContent = moves;
+    [...dotsEl.children].forEach((d,i)=>{
+      d.classList.toggle('done', i < matchedCount);
+    });
+  }
+
+  function buildBoard(){
+    tiles = [];
+    PAIRS.forEach((pair, idx)=>{
+      tiles.push({ pairIndex:idx, type:'base', word:pair.base });
+      tiles.push({ pairIndex:idx, type:'participle', word:pair.participle });
+    });
+    shuffle(tiles);
+
+    tileGrid.innerHTML = '';
+    tiles.forEach((tile, i)=>{
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'tile';
+      btn.textContent = '?';
+      btn.setAttribute('aria-label', 'Hidden card');
+      btn.dataset.index = i;
+      btn.addEventListener('click', function(){ onTileClick(btn, tile); });
+      tileGrid.appendChild(btn);
+    });
+  }
+
+  function onTileClick(el, tile){
+    if(locked) return;
+    if(el.classList.contains('flipped') || el.classList.contains('matched')) return;
+    if(flippedEls.length === 2) return;
+
+    el.classList.add('flipped');
+    el.textContent = tile.word;
+    el.setAttribute('aria-label', tile.word);
+    flippedEls.push({ el, tile });
+
+    if(flippedEls.length === 2){
+      moves++;
+      movesValue.textContent = moves;
+      const [a, b] = flippedEls;
+      const isMatch = a.tile.pairIndex === b.tile.pairIndex && a.tile.type !== b.tile.type;
+
+      if(isMatch){
+        locked = true;
+        setTimeout(()=>{
+          a.el.classList.add('matched');
+          b.el.classList.add('matched');
+          a.el.disabled = true;
+          b.el.disabled = true;
+          matchedCount++;
+          flippedEls = [];
+          locked = false;
+          refreshMeta();
+          showReward(PAIRS[a.tile.pairIndex]);
+          if(matchedCount === PAIRS.length){
+            finishRow.style.display = 'flex';
+          }
+        }, 450);
+      } else {
+        locked = true;
+        a.el.classList.add('shake');
+        b.el.classList.add('shake');
+        setTimeout(()=>{
+          a.el.classList.remove('flipped','shake');
+          b.el.classList.remove('flipped','shake');
+          a.el.textContent = '?';
+          b.el.textContent = '?';
+          a.el.setAttribute('aria-label','Hidden card');
+          b.el.setAttribute('aria-label','Hidden card');
+          flippedEls = [];
+          locked = false;
+        }, 900);
+      }
+    }
+  }
+
+  function showReward(pair){
+    currentRewardPair = pair;
+    rewardPairLabel.textContent = pair.base + ' → ' + pair.participle;
+    loadPhoto(pair);
+    sentenceText.innerHTML = pair.sentence.replace(
+      new RegExp('(' + pair.participle + ')', 'i'),
+      '<span class="hl">$1</span>'
+    );
+    rewardCard.classList.add('show');
+    listenLabel.textContent = 'LISTEN';
+    btnListen.disabled = false;
+    btnListen.classList.remove('speaking');
+
+    // Reinforce with natural pronunciation of the full sentence
+    btnListen.classList.add('speaking');
+    btnListen.disabled = true;
+    listenLabel.textContent = 'PLAYING…';
+    speakPhrase(pair.sentence, pair.voice, function(){
+      btnListen.classList.remove('speaking');
+      btnListen.disabled = false;
+      listenLabel.textContent = 'LISTEN';
+    });
+
+    rewardCard.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+
+  function resetGame(){
+    matchedCount = 0;
+    moves = 0;
+    locked = false;
+    flippedEls = [];
+    currentRewardPair = null;
+    rewardCard.classList.remove('show');
+    finishRow.style.display = 'none';
+    buildDots();
+    buildBoard();
+    refreshMeta();
+  }
+
+  btnStart.addEventListener('click', ()=>{
+    screens.welcome.classList.remove('active');
+    screens.activity.classList.add('active');
+    resetGame();
+  });
+
+  btnFinish.addEventListener('click', showFinal);
+
+  function showFinal(){
+    screens.activity.classList.remove('active');
+    screens.final.classList.add('active');
+    document.getElementById('final-score').textContent = matchedCount;
+    document.getElementById('final-moves').textContent = moves;
+    const pct = Math.round((matchedCount / PAIRS.length) * 100);
+    setTimeout(()=>{
+      document.getElementById('progress-fill').style.width = pct + '%';
+    }, 150);
+  }
+
+  btnRetry.addEventListener('click', ()=>{
+    screens.final.classList.remove('active');
+    screens.activity.classList.add('active');
+    resetGame();
+  });
+
+})();
+</script>
+
+</body>
+</html>
